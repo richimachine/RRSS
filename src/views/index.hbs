@@ -17,10 +17,10 @@
             <div class="form-group p-2">
                 <input type="text" name="title" class="form-control" placeholder="Titulo" required>
             </div>
-           <div class="p-2">
-        <textarea name="description" rows="2" class="form-control border-dark "
-            placeholder="Cuentame tu historia" required></textarea>
-        </div>
+            <div class="p-2">
+                <textarea name="description" rows="2" class="form-control border-dark "
+                    placeholder="Cuentame tu historia" required></textarea>
+            </div>
 
             <div class="p-2">
                 <input type="file" name="image" class="form-control text-dark border-success" required />
@@ -36,5 +36,21 @@
     </div>
 
 
+</div>
 
+<div class="card mt-2 bg-dark text-white">
+    <div class="card-header d-flex align-items-center">
+        <h3> Últimas historias<i class="far fa-images"></i></h3>
+    </div>
+    <div class="card-body p-5">
+        <div class="row">{{#each images}}
+            <div class="col-md-4 text-center">
+                <a href="">
+                    <img src="/public/upload/{{filename}}" alt="{{title}}" class="w-100 h-100 p-1"
+                        style="object-fit: cover border: 5px inset black;" />
+                </a>
+            </div>
+            {{/each}}
+        </div>
+    </div>
 </div>

@@ -21,7 +21,6 @@ ctrl.create = (req, res) => {
    
     const imageTemPath = req.file.path;
     const ext = path.extname(req.file.originalname).toLowerCase();
-    console.log(ext)
     const targetPath = path.resolve(`src/public/upload/${imgName}${ext}`)
 
     if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
@@ -32,10 +31,11 @@ ctrl.create = (req, res) => {
             filename: imgName + ext
 
         });
-            res.send('works!')
+         
 
         const imageSaved = await newImg.save();
-
+   res.send('works!')
+//    res.redirect('/images');
     } else {
         await fs.unlink(imageTemPath);
         res.status(500).json({
