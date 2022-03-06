@@ -45,8 +45,8 @@
     <div class="card-body p-5">
         <div class="row">{{#each images}}
             <div class="col-md-4 text-center">
-                <a href="">
-                    <img src="/public/upload/{{filename}}" alt="{{title}}" class="w-100 h-100 p-1"
+                <a href="/images/{{uniqueID}}">
+                    <img src="/public/upload/{{filename}}" alt="{{title}}" class="w-auto h-auto p-1 img-thumbnail"
                         style="object-fit: cover border: 5px inset black;" />
                 </a>
             </div>

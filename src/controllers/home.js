@@ -3,7 +3,7 @@ const { Image } = require('../models')
 ctrl.index = async (req, res, next) => {
     try {
       const images = await Image.find()
-        .sort({ timestamp: -1 })
+        .sort({ timeStamp: -1 })
         .lean({ virtuals: true });
   
       let viewModel = { images: [] };
@@ -15,5 +15,5 @@ ctrl.index = async (req, res, next) => {
     }
   };
 
-  
+
 module.exports = ctrl; 
