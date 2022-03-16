@@ -14,13 +14,5 @@ const ImageSchema = new Schema({
     
 });
 
-// imageSchema.plugin(mongooseLeanVirtuals);
-
-// OPCION REDUNDANTE 
-//ImageSchema.virtual("uniqueID").get(function(){
-//   return this.filename.replace(path.extname(this.filename), "");
-// }); No funciona bien la virtualizacion, 
-// por lo que creo una nueva propiedad del objeto, ademas le quita redundancia a la aplicacion.
-
 
     module.exports = mongoose.model('Image', ImageSchema);

@@ -3,40 +3,46 @@ const ctrl = {};
 const helpers = require('../helpers/libs');
 const fs = require('fs-extra');
 const {
-    Image
+    Image,
+    Comment
 } = require('../models/index');
+const {
+    findOneAndUpdate
+} = require('../models/image');
 
 
 
-ctrl.index = async (req, res) => {
-    
-  let viewModel = { image: {}};
+ctrl.index = async (req, res, next) => {
+    let viewModel = {
+        image: {},
+        comments: []
+    };
 
-  const image = await Image.findOne({
-    filename: { $regex: req.params.image_id },
-  }).lean();
+    const image = await Image.findOneAndUpdate({
+        filename: {
+            $regex: req.params.image_id
+        }
+    }, {
+        $inc: {
+            views: 1
+        }
+    }).lean();
+    if (!image) return next(new Error("Image does not exists"));
 
-  // if image does not exists
-//   if (!image) return next(new Error("Image does not exists"));
+    viewModel.image = image;
 
-//   // increment views
-//   const updatedImage = await Image.findOneAndUpdate(
-//     { _id: image.id },
-//     { $inc: { views: 1 } }
-//   ).lean();
+    const comments = await Comment.find({
+        image_id: image._id
+    }).sort({
+        timestamp: 1,
+    }).lean();
 
-  viewModel.image = image;
-
-  // get image comments
-//   const comments = await Comment.find({ image_id: image._id }).sort({
-//     timestamp: 1,
-//   });
-
-//   viewModel.comments = comments;
-//   viewModel = await sidebar(viewModel);
-
-  console.log(viewModel);
-  res.render("image", viewModel);
+    viewModel.comments = comments;
+    //   viewModel = await sidebar(viewModel);
+    res.render("image", {
+        image,
+        comments
+    });
 };
 ctrl.create = (req, res) => {
 
@@ -66,8 +72,8 @@ ctrl.create = (req, res) => {
 
 
                 const imageSaved = await newImg.save();
-                res.send('works!')
-                //    res.redirect('/images');
+
+                res.redirect('/images/' + imgName);
             } else {
                 await fs.unlink(imageTemPath);
                 res.status(500).json({
@@ -82,7 +88,20 @@ ctrl.create = (req, res) => {
 ctrl.like = (req, res) => {
 
 };
-ctrl.comment = (req, res) => {
+ctrl.comment = async (req, res) => {
+    const image = await Image.findOne({
+        filename: {
+            $regex: req.params.image_id
+        }
+    });
+    if (image) {
+        const newComment = new Comment(req.body);
+        newComment.image_id = image._id;
+        console.log(newComment);
+        await newComment.save();
+        res.redirect('/images/' + image.uniqueID);
+
+    }
 
 };
 ctrl.remove = (req, res) => {
