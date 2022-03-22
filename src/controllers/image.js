@@ -9,6 +9,8 @@ const {
 const {
     findOneAndUpdate
 } = require('../models/image');
+const image = require('../models/image');
+
 
 
 
@@ -27,7 +29,8 @@ ctrl.index = async (req, res, next) => {
             views: 1
         }
     }).lean();
-    if (!image) return next(new Error("Image does not exists"));
+    if (!image) return next(new Error("Image does not exists"),
+        res.redirect('/'));
 
     viewModel.image = image;
 
@@ -39,10 +42,7 @@ ctrl.index = async (req, res, next) => {
 
     viewModel.comments = comments;
     //   viewModel = await sidebar(viewModel);
-    res.render("image", {
-        image,
-        comments
-    });
+    res.render("image", viewModel);
 };
 ctrl.create = (req, res) => {
 
@@ -85,9 +85,33 @@ ctrl.create = (req, res) => {
     }
     saveImage();
 };
-ctrl.like = (req, res) => {
+ctrl.like = async (req, res) => {
+    const image = await Image.findOne({
+        filename: { $regex: req.params.image_id },
+      });
+      if (image) {
+        image.likes = image.likes + 1;
+        await image.save();
+        res.json({ likes: image.likes });
+      } else {
+        res.status(500).json({ error: "Internal Error" });
+      }
+    };
+    // Intento de hacerlo igual que los views, funciona pero no se autorefresca el contador
+    // const image = await Image.findOneAndUpdate({
+    //     filename: {
+    //         $regex: req.params.image_id
+    //     }
+    // }, {
+    //     $inc: {
+    //         likes: 1
+    //     }
+        
+    // }
+    // ).lean(); 
+    
+    // console.log(image);};
 
-};
 ctrl.comment = async (req, res) => {
     const image = await Image.findOne({
         filename: {
@@ -104,8 +128,14 @@ ctrl.comment = async (req, res) => {
     }
 
 };
-ctrl.remove = (req, res) => {
-
+ctrl.remove = async (req, res) => {
+   const image =  await Image.findOne({filename:{$regex: req.params.image_id}});
+if(image){
+    await fs.unlink(path.resolve('./src/public/upload/' + image.filename))
+    await Comment.deleteOne({image_id: image._id});
+    await image.remove();
+    res.json(true);
+}
 };
 
 
