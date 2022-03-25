@@ -10,7 +10,7 @@ const {
     findOneAndUpdate
 } = require('../models/image');
 const image = require('../models/image');
-
+const sidebar = require('../helpers/sidebar')
 
 
 
@@ -41,7 +41,7 @@ ctrl.index = async (req, res, next) => {
     }).lean();
 
     viewModel.comments = comments;
-    //   viewModel = await sidebar(viewModel);
+    viewModel = await sidebar(viewModel);
     res.render("image", viewModel);
 };
 ctrl.create = (req, res) => {

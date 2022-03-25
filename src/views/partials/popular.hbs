@@ -1,0 +1,19 @@
+<div class="card mb-2 bg-dark text-white">
+
+    <div class="card-header">
+        <h5 class="card-title d-flex align-items-center"><i class="fas fa-fire"></i> Populares</h5>
+    </div>
+
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    {{#each sidebar.popular}}
+                    <a href="/images/{{uniqueID}}">
+                        <img src="/public/upload/{{filename}}" alt="{{title}}" class=" p-2 img-thumbnail"
+                            style="wide: auto; height: 100px;object-fit: cover border: 2px inset black;" /> {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
