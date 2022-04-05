@@ -97,20 +97,7 @@ ctrl.like = async (req, res) => {
         res.status(500).json({ error: "Internal Error" });
       }
     };
-    // Intento de hacerlo igual que los views, funciona pero no se autorefresca el contador
-    // const image = await Image.findOneAndUpdate({
-    //     filename: {
-    //         $regex: req.params.image_id
-    //     }
-    // }, {
-    //     $inc: {
-    //         likes: 1
-    //     }
-        
-    // }
-    // ).lean(); 
-    
-    // console.log(image);};
+
 
 ctrl.comment = async (req, res) => {
     const image = await Image.findOne({

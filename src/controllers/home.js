@@ -11,7 +11,6 @@ ctrl.index = async (req, res, next) => {
       let viewModel = { images: [] };
       viewModel.images = images;
       viewModel = await sidebar(viewModel);
-      console.log(viewModel);
       res.render("index", viewModel);
     } catch (error) {
       next(error);
