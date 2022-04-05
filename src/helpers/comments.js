@@ -9,12 +9,12 @@ module.exports = {
         const comments = await Comment.find()
         .limit(5)
         .sort({
-            timeStamp: -1});
+            timeStamp: -1})
+        .lean();
         for (const comment of comments) {
-            const image = Image.findOne({_id: comment.image_id});
+            const image = await Image.findOne({_id: comment.image_id}).lean();
             comment.image = image; 
         }
-
         return comments;
         }
 };
