@@ -1,4 +1,4 @@
-# RRSS
+# tell2
 ![1](https://user-images.githubusercontent.com/52597384/161746878-3b2985e7-db96-418d-a882-f19f3c196178.PNG)
 ![2](https://user-images.githubusercontent.com/52597384/161746882-85d22faa-5e61-429c-b0c2-a19fe14ad507.PNG)
 ![3](https://user-images.githubusercontent.com/52597384/161746883-eda038c3-e6a7-4b38-adaf-0e671490f3b3.PNG)
